@@ -36,6 +36,8 @@ class TacosController < ApplicationController
   # DELETE /tacos/1
   def destroy
     @taco.destroy
+
+    render json: @taco
   end
 
   private
