@@ -5,12 +5,12 @@ class TacosController < ApplicationController
   def index
     @tacos = Taco.all
 
-    render json: @tacos, except: [:created_at, :updated_at]
+    render json: @tacos, except: [:created_at, :updated_at, :category_id], include: [:category]
   end
 
   # GET /tacos/1
   def show
-    render json: @taco
+    render json: @taco, except: [:created_at, :updated_at, :category_id], include: [:category]
   end
 
   # POST /tacos
@@ -18,7 +18,7 @@ class TacosController < ApplicationController
     @taco = Taco.new(taco_params)
 
     if @taco.save
-      render json: @taco, status: :created, location: @taco, except: [:created_at, :updated_at]
+      render json: @taco, status: :created, location: @taco, except: [:created_at, :updated_at, :category_id], include: [:category]
     else
       render json: @taco.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class TacosController < ApplicationController
   # PATCH/PUT /tacos/1
   def update
     if @taco.update(taco_params)
-      render json: @taco
+      render json: @taco, except: [:created_at, :updated_at, :category_id], include: [:category]
     else
       render json: @taco.errors, status: :unprocessable_entity
     end
