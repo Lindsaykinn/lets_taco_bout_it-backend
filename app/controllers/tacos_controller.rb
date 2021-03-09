@@ -5,7 +5,7 @@ class TacosController < ApplicationController
   def index
     @tacos = Taco.all
 
-    render json: @tacos
+    render json: @tacos, except: [:created_at, :updated_at]
   end
 
   # GET /tacos/1
@@ -18,7 +18,7 @@ class TacosController < ApplicationController
     @taco = Taco.new(taco_params)
 
     if @taco.save
-      render json: @taco, status: :created, location: @taco
+      render json: @taco, status: :created, location: @taco, except: [:created_at, :updated_at]
     else
       render json: @taco.errors, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class TacosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def taco_params
-      params.require(:taco).permit(:category_id, :name, :image, :description, :likes, :restaurant, :url, :location)
+      params.require(:taco).permit(:category_attributes, :name, :image, :description, :likes, :restaurant, :url, :location)
     end
 end
